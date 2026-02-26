@@ -9,13 +9,18 @@ export default function ConstructionDashboardPage() {
   return (
     <div className="min-h-screen bg-slate-900 text-white">
       <div className="max-w-7xl mx-auto px-6 py-10 space-y-16">
+        
+        {/* HEADER (Admin button is inside this) */}
         <ConstructionHeader />
+
+        {/* DASHBOARD SECTIONS */}
         <MetricsCards />
         <ProgressChart />
         <SafetyInfo />
         <Timeline />
         <ProjectTeam />
+
       </div>
     </div>
-  )
+  );
 }
