@@ -1,46 +1,76 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 export default function EngineerDashboard() {
+
   const navigate = useNavigate();
 
+  const fullText = "Engineer Dashboard";
+  const [typedText, setTypedText] = useState("");
+  const [index, setIndex] = useState(0);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (index < fullText.length) {
+      const timeout = setTimeout(() => {
+        setTypedText((prev) => prev + fullText[index]);
+        setIndex(index + 1);
+      }, 80);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [index]);
+  
+  
+
   return (
-    <div className="min-h-screen bg-[#f5f7fb]">
+  <div className={darkMode ? "dark" : ""}>
+  <div className="min-h-screen bg-[#f5f7fb] dark:bg-gray-900 transition-colors duration-300">
 
       {/* ================= NAVBAR ================= */}
-      <div className="flex justify-between items-center px-12 py-5 border-b border-gray-200 bg-white">
+      <div className="flex justify-between items-center px-12 py-5 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 transition">
 
         <div className="flex items-center gap-4">
           <div className="p-3 bg-gradient-to-r from-orange-500 to-pink-600 text-white rounded-lg">
             🏗
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-gray-800">
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
+
               Engineer Dashboard
             </h2>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Real-time Construction Monitoring
             </p>
           </div>
         </div>
-
+        <div className="flex gap-4 items-center">
         <button
           onClick={() => navigate("/")}
           className="px-6 py-2 bg-orange-100 text-orange-600 rounded-full hover:bg-orange-200 transition"
         >
           🏠 Back to Home
         </button>
+        <button
+  onClick={() => setDarkMode(!darkMode)}
+  className="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 dark:text-white transition"
+>
+  {darkMode ? "☀ Light" : "🌙 Dark"}
+</button>
+</div>
       </div>
 
       {/* ================= HERO SECTION ================= */}
       <div className="text-center py-20 px-6 max-w-6xl mx-auto">
-        <h1 className="text-6xl font-bold text-gray-900">
-          Interactive{" "}
-          <span className="bg-gradient-to-r from-orange-500 to-pink-600 bg-clip-text text-transparent">
-            Engineer Dashboard
-          </span>
-        </h1>
+      <h1 className="text-6xl font-bold text-gray-900 dark:text-white">
+    Interactive{" "}
+    <span className="bg-gradient-to-r from-orange-500 to-pink-600 bg-clip-text text-transparent">
+      {typedText}
+      <span className="animate-pulse">|</span>
+    </span>
+  </h1>
 
-        <p className="mt-8 text-xl text-gray-600 max-w-3xl mx-auto">
+  <p className="mt-8 text-xl text-gray-600 dark:text-gray-400">
           Monitor construction stages, task execution, material usage,
           technical risks, and dependencies across EPC projects
           with structured performance tracking.
@@ -79,19 +109,24 @@ export default function EngineerDashboard() {
 
         {/* PHASE TRACKER */}
         <Section title="🏗 Phase Tracker">
-          <div className="relative mt-10">
-            <div className="absolute top-3 left-0 right-0 h-1 bg-gray-200 rounded-full"></div>
-            <div className="absolute top-3 left-0 h-1 bg-gradient-to-r from-green-400 to-yellow-400 rounded-full w-1/2"></div>
+  <div className="relative mt-10">
 
-            <div className="relative flex justify-between">
-              <Phase status="completed" name="Basement" />
-              <Phase status="completed" name="Columns" />
-              <Phase status="ongoing" name="Slabs" />
-              <Phase status="pending" name="Roofing" />
-              <Phase status="pending" name="Finishing" />
-            </div>
-          </div>
-        </Section>
+    {/* Background line */}
+    <div className="absolute top-3 left-0 right-0 h-1 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+
+    {/* Progress line */}
+    <div className="absolute top-3 left-0 h-1 bg-gradient-to-r from-green-400 to-yellow-400 rounded-full w-1/2"></div>
+
+    <div className="relative flex justify-between">
+      <Phase status="completed" name="Basement" />
+      <Phase status="completed" name="Columns" />
+      <Phase status="ongoing" name="Slabs" />
+      <Phase status="pending" name="Roofing" />
+      <Phase status="pending" name="Finishing" />
+    </div>
+
+  </div>
+</Section>
 
         {/* TASK STATUS */}
         <Section title="📋 Task Status">
@@ -121,7 +156,7 @@ export default function EngineerDashboard() {
             <h3 className="font-semibold text-red-700 text-lg">
               Concrete Grade Mismatch
             </h3>
-            <p className="text-sm text-gray-600 mt-2">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Severity: High – Structural integrity risk
             </p>
           </div>
@@ -170,6 +205,7 @@ export default function EngineerDashboard() {
 
       </div>
     </div>
+    </div>
   );
 }
 
@@ -186,48 +222,46 @@ function MetricCard({ title, value, color = "gray" }) {
   const textColor = colorStyles[color] || colorStyles.gray;
 
   return (
-    <div className="group perspective">
-
+    <div className="group [perspective:1000px]">
+      
       <div className="
         relative w-full h-40
-        transition-transform duration-700
-        transform-style-preserve-3d
-        group-hover:rotate-y-180
+        transition-transform duration-300
+        [transform-style:preserve-3d]
+        group-hover:[transform:rotateY(180deg)]
       ">
 
-        {/* FRONT SIDE */}
-        <div className="
-          absolute w-full h-full
-          bg-white
-          border border-gray-200
-          rounded-xl
-          shadow-sm
-          p-6
-          backface-hidden
-          flex flex-col justify-center
-        ">
+        {/* FRONT */}
+        <div
+  className="
+    absolute inset-0
+    bg-white dark:bg-gray-800
+    border border-gray-200 dark:border-gray-700
+    rounded-xl shadow-sm p-6
+    flex flex-col justify-center
+    [backface-visibility:hidden]
+  "
+>
           <p className="text-sm text-gray-500">{title}</p>
           <h2 className={`text-3xl font-bold mt-2 ${textColor}`}>
             {value}
           </h2>
         </div>
 
-        {/* BACK SIDE */}
+        {/* BACK (same content) */}
         <div className="
-          absolute w-full h-full
-          bg-gradient-to-r from-blue-500 to-indigo-600
-          text-white
-          rounded-xl
-          shadow-md
-          p-6
-          rotate-y-180
-          backface-hidden
-          flex flex-col justify-center items-center text-center
+              absolute inset-0
+    bg-white dark:bg-gray-800
+    border border-gray-200 dark:border-gray-700
+    rounded-xl shadow-sm p-6
+    flex flex-col justify-center
+          [transform:rotateY(180deg)]
+          [backface-visibility:hidden]
         ">
-          <p className="text-sm opacity-80">Details</p>
-          <p className="mt-2 text-lg font-semibold">
-            More analytics info here
-          </p>
+          <p className="text-sm text-gray-500">{title}</p>
+          <h2 className={`text-3xl font-bold mt-2 ${textColor}`}>
+            {value}
+          </h2>
         </div>
 
       </div>
@@ -236,15 +270,18 @@ function MetricCard({ title, value, color = "gray" }) {
 }
 function Section({ title, children }) {
   return (
-    <div className="
-      bg-white
-      border border-gray-200
-      rounded-xl
-      p-12
-      shadow-sm
-      mb-20
-    ">
-      <h2 className="text-3xl font-semibold text-gray-800 mb-10">
+    <div
+      className="
+        bg-white dark:bg-gray-800
+        border border-gray-200 dark:border-gray-700
+        rounded-xl
+        p-12
+        shadow-sm
+        mb-20
+        transition
+      "
+    >
+      <h2 className="text-3xl font-semibold text-gray-800 dark:text-white mb-10">
         {title}
       </h2>
       {children}
@@ -267,26 +304,29 @@ function SimpleTable({ headers, rows }) {
   };
 
   return (
-    <div className="overflow-hidden rounded-xl border border-gray-200">
-      <table className="w-full text-left bg-white">
-        <thead className="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider">
+    <div className="overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700">
+      <table className="w-full text-left bg-white dark:bg-gray-800">
+        <thead className="bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-sm uppercase tracking-wider">
           <tr>
             {headers.map((h, i) => (
               <th key={i} className="px-6 py-4">{h}</th>
             ))}
           </tr>
         </thead>
-
+  
         <tbody>
           {rows.map((row, i) => (
-            <tr key={i} className="border-t hover:bg-gray-50 transition">
+            <tr
+              key={i}
+              className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+            >
               {row.map((cell, j) => (
                 <td
                   key={j}
                   className={`px-6 py-4 ${
                     headers[j] === "Status"
                       ? getStatusStyle(cell)
-                      : "text-gray-700"
+                      : "text-gray-700 dark:text-gray-300"
                   }`}
                 >
                   {cell}
@@ -306,14 +346,14 @@ function Phase({ name, status }) {
       ? "bg-green-500"
       : status === "ongoing"
       ? "bg-yellow-500"
-      : "bg-gray-300";
+      : "bg-gray-300 dark:bg-gray-600";
 
   const textColor =
     status === "completed"
-      ? "text-green-600"
+      ? "text-green-600 dark:text-green-400"
       : status === "ongoing"
-      ? "text-yellow-600"
-      : "text-gray-500";
+      ? "text-yellow-600 dark:text-yellow-400"
+      : "text-gray-500 dark:text-gray-400";
 
   return (
     <div className="flex flex-col items-center">
