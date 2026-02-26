@@ -6,6 +6,7 @@ import RiskAssessmentPage from './pages/RiskAssessmentPage';
 import AnalyticsDashboardPage from './pages/AnalyticsDashboardPage';
 import SupplyChainPage from './pages/SupplyChainPage';
 import KnowledgeBasePage from './pages/KnowledgeBasePage';
+import Login from './pages/Login';
 
 import EngineerDashboard from './pages/Engineerdashboard';
 
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/analytics-dashboard" element={<AnalyticsDashboardPage />} />
         <Route path="/supply-chain" element={<SupplyChainPage />} />
         <Route path="/knowledge-base" element={<KnowledgeBasePage />} />
+        <Route path="/login" element={<Login />} />
 
         <Route path = "/engineer" element = {<EngineerDashboard/>}/>
         <Route path="/construction-dashboard" element={<ConstructionDashboardPage />} />

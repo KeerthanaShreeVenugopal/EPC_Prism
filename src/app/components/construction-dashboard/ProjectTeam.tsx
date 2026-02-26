@@ -1,6 +1,7 @@
 import { Card } from "../ui/card";
 import { Mail, Phone, Building2 } from "lucide-react";
 //import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { Link } from "react-router-dom";
 
 export default function ProjectTeam() {
   const team = [
@@ -61,7 +62,6 @@ export default function ProjectTeam() {
                   >
                     <Phone className="w-4 h-4" />
                     <span>{member.phone}</span>
-                    <Link to={`tel:${member.phone}`}></Link>
                   </a>
                 </div>
               </div>
