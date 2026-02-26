@@ -1,6 +1,7 @@
 import { Card } from "../ui/card";
 import { Mail, Phone, Building2 } from "lucide-react";
 //import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { Link } from "react-router-dom";
 
 export default function ProjectTeam() {
   const team = [
