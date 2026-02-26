@@ -62,7 +62,6 @@ export default function ProjectTeam() {
                   >
                     <Phone className="w-4 h-4" />
                     <span>{member.phone}</span>
-                    <Link to={`tel:${member.phone}`}></Link>
                   </a>
                 </div>
               </div>
