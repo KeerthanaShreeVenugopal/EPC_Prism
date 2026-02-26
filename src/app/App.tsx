@@ -8,6 +8,11 @@ import SupplyChainPage from './pages/SupplyChainPage';
 import KnowledgeBasePage from './pages/KnowledgeBasePage';
 import Login from './pages/Login';
 
+import EngineerDashboard from './pages/Engineerdashboard';
+
+import ConstructionDashboardPage from './pages/ConstructionDashboardPage';
+
+
 export default function App() {
   return (
     <Router>
@@ -20,6 +25,11 @@ export default function App() {
         <Route path="/supply-chain" element={<SupplyChainPage />} />
         <Route path="/knowledge-base" element={<KnowledgeBasePage />} />
         <Route path="/login" element={<Login />} />
+
+        <Route path = "/engineer" element = {<EngineerDashboard/>}/>
+        <Route path="/construction-dashboard" element={<ConstructionDashboardPage />} />
+        <Route path="/dashboard" element={<ConstructionDashboardPage />} />
+
       </Routes>
     </Router>
   );

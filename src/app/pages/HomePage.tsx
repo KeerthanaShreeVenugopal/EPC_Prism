@@ -11,9 +11,10 @@ import {
   Brain,
   Zap,
   CheckCircle,
-  TrendingUp
+  TrendingUp,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import EngineerDashboard from "./EngineerDashboard.jsx"
 
 const galleryImages = [
   'https://images.unsplash.com/photo-1674062333283-41a1b59f0408?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb25zdHJ1Y3Rpb24lMjBlbmdpbmVlcmluZyUyMGJ1aWxkaW5nJTIwc2l0ZXxlbnwxfHx8fDE3NzE3NjU5NTB8MA&ixlib=rb-4.1.0&q=80&w=1080',
@@ -123,12 +124,21 @@ export default function HomePage() {
           </motion.div>
           
           <div className="flex items-center gap-8">
+          <Link to="/engineer" className="text-gray-700 hover:text-purple-600 transition-colors">
+              Engineer
+            </Link>
             <Link to="/" className="text-gray-700 hover:text-purple-600 transition-colors">
               Home
             </Link>
             <a href="#features" className="text-gray-700 hover:text-purple-600 transition-colors">
               Features
             </a>
+            <Link
+    to="/dashboard"
+    className="px-6 py-2 border border-amber-500 text-amber-600 rounded-full hover:bg-amber-50 transition-all"
+  >
+    Dashboard
+  </Link>
             <Link 
               to="/login"
               className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:shadow-lg transition-all"
