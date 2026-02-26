@@ -13,8 +13,11 @@ import {
   Zap,
   CheckCircle,
   TrendingUp,
+
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+import EngineerDashboard from "./EngineerDashboard.jsx"
+
 
 const galleryImages = [
   "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2070&auto=format&fit=crop",
@@ -86,7 +89,7 @@ export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showFeatures, setShowFeatures] = useState(false);
 
-  /* Slideshow */
+
   useEffect(() => {
     const slideInterval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % galleryImages.length);
