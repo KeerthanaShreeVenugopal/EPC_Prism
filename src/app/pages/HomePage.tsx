@@ -93,6 +93,7 @@ const stats = [
 export default function HomePage() {
   const [scrollPosition, setScrollPosition] = useState(0);
 
+
   useEffect(() => {
     const interval = setInterval(() => {
       setScrollPosition((prev) => (prev + 1) % (galleryImages.length * 400));
@@ -129,7 +130,7 @@ export default function HomePage() {
               Features
             </a>
             <Link 
-              to="/query-engine"
+              to="/login"
               className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:shadow-lg transition-all"
             >
               Get Started
