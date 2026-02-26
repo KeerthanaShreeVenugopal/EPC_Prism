@@ -4,7 +4,11 @@ import { useNavigate } from "react-router-dom";
 
 export default function ConstructionHeader() {
   const navigate = useNavigate();
-
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    navigate("/login", { replace: true });
+  };
   return (
     <Card className="relative overflow-hidden border-0 rounded-3xl">
       <div className="absolute inset-0">
@@ -37,10 +41,11 @@ export default function ConstructionHeader() {
 
           {/* NEW BUTTON */}
           <button
-            onClick={() => navigate("/")}
+            // onClick={() => navigate("/")}
+            onClick={handleLogout}
             className="px-6 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl shadow-lg transition-all"
           >
-            Back to Home
+            Logout
           </button>
 
         </div>

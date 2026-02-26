@@ -2,6 +2,11 @@ import { useNavigate } from "react-router-dom";
 
 export default function EngineerDashboard() {
   const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    navigate("/login", { replace: true });
+  };
 
   return (
     <div className="min-h-screen bg-[#f5f7fb]">
@@ -23,11 +28,15 @@ export default function EngineerDashboard() {
           </div>
         </div>
 
-        <button
+        {/* <button
           onClick={() => navigate("/")}
           className="px-6 py-2 bg-orange-100 text-orange-600 rounded-full hover:bg-orange-200 transition"
+        > */}
+        <button
+          onClick={handleLogout}
+          className="px-6 py-2 bg-orange-100 text-orange-600 rounded-full hover:bg-orange-200 transition"
         >
-          🏠 Back to Home
+          Logout
         </button>
       </div>
 
