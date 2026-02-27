@@ -10,7 +10,10 @@ import Login from './pages/Login';
 
 import EngineerDashboard from './pages/Engineerdashboard';
 
+
+
 import ConstructionDashboardPage from './pages/ConstructionDashboardPage';
+import AttendanceDashboardPage from "./pages/AttendanceDashboardPage";
 
 
 export default function App() {
@@ -29,6 +32,7 @@ export default function App() {
         <Route path = "/engineer" element = {<EngineerDashboard/>}/>
         <Route path="/construction-dashboard" element={<ConstructionDashboardPage />} />
         <Route path="/dashboard" element={<ConstructionDashboardPage />} />
+        <Route path="/attendance-dashboard" element={<AttendanceDashboardPage />} />
 
       </Routes>
     </Router>
