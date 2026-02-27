@@ -1,10 +1,10 @@
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from .database import SessionLocal, engine
 from .models import Base, User
 from .schemas import UserCreate, UserLogin
 from .auth import hash_password, verify_password, create_access_token
-from fastapi.middleware.cors import CORSMiddleware
 
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
