@@ -17,8 +17,8 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from 'react';
 import EngineerDashboard from "./EngineerDashboard.jsx"
-
-
+import ConstructionDashboardPage from "./ConstructionDashboardPage.jsx"
+import Loginpage from './Login.tsx'
 const galleryImages = [
   "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2070&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0?q=80&w=2070&auto=format&fit=crop",
@@ -147,13 +147,25 @@ export default function HomePage() {
               >
                 Features
               </button>
-
               <Link
-                to="/query-engine"
+                to="/engineer"
+                className=  "text-white text-lg font-semibold hover:text-pink-300 transition"
+              >
+                engineer
+              </Link>
+              <Link
+                to="/construction-dashboard"
+                className=  "text-white text-lg font-semibold hover:text-pink-300 transition"
+              >
+                construction-dashboard
+              </Link>
+              <Link
+                to="/login"
                 className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-semibold hover:shadow-xl transition"
               >
                 Login
               </Link>
+              
             </div>
           </nav>
         </motion.header>
