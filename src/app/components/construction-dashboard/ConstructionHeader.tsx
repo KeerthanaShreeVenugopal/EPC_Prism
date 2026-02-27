@@ -14,7 +14,8 @@ export default function ConstructionHeader() {
   };
 
   return (
-    <Card className="relative overflow-hidden border-0 rounded-3xl shadow-2xl">
+    <Card className="relative overflow-hidden border-0 rounded-3xl shadow-2xl bg-white dark:bg-slate-900">
+      
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
@@ -22,13 +23,22 @@ export default function ConstructionHeader() {
           alt="Construction site"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/85 to-slate-900/70" />
+        <div
+          className="absolute inset-0 
+            bg-gradient-to-r 
+            from-white/90 via-white/70 to-white/40
+            dark:from-slate-900/95 
+            dark:via-slate-900/85 
+            dark:to-slate-900/70"
+        />
       </div>
 
       {/* Content */}
-      <div className="relative p-8 md:p-12 text-white">
+      <div className="relative p-8 md:p-12">
+        
         {/* ===== TOP ROW ===== */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+          
           {/* Left Section */}
           <div>
             <div className="flex items-center gap-4 mb-4">
@@ -36,44 +46,52 @@ export default function ConstructionHeader() {
                 <Building2 className="w-8 h-8 text-white" />
               </div>
 
-              <div className="px-4 py-1.5 bg-green-500/20 border border-green-500/30 rounded-full">
+              <div className="px-4 py-1.5 bg-green-500/20 dark:bg-green-500/10 border border-green-500/30 rounded-full">
                 <span className="text-sm text-green-400 font-medium">
                   ● Under Construction
                 </span>
               </div>
             </div>
+
+            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-3">
+              Skyline Tower Complex
+            </h1>
+
+            <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 max-w-2xl">
+              Premium residential & commercial mixed-use development featuring
+              sustainable architecture and modern amenities.
+            </p>
           </div>
 
-          {/* Right Section (Buttons) */}
+          {/* Right Section Buttons */}
           <div className="flex flex-wrap gap-4">
             <button
               onClick={handleAdminClick}
-              className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-lg transition duration-200 font-medium"
+              className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-lg transition duration-200 font-medium"
             >
               Admin Dashboard
             </button>
 
             <button
               onClick={handleHomeClick}
-              className="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 rounded-xl shadow-lg transition duration-200 font-medium"
+              className="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl shadow-lg transition duration-200 font-medium"
             >
               Back to Home
+            </button>
+
+            <button
+              onClick={() =>
+                document.documentElement.classList.toggle("dark")
+              }
+              className="px-4 py-2 bg-slate-200 dark:bg-slate-700 dark:text-white rounded-lg"
+            >
+              Toggle Theme
             </button>
           </div>
         </div>
 
-        {/* ===== TITLE ===== */}
-        <h1 className="text-4xl text-red-500 font-bold">
-  TEST HEADER
-</h1>
-
-        <p className="text-lg md:text-xl text-slate-300 mb-8 max-w-2xl">
-          Premium residential & commercial mixed-use development featuring
-          sustainable architecture and modern amenities.
-        </p>
-
         {/* ===== INFO ROW ===== */}
-        <div className="flex flex-wrap gap-8 text-slate-300">
+        <div className="flex flex-wrap gap-8 text-slate-700 dark:text-slate-300">
           <div className="flex items-center gap-3">
             <MapPin className="w-5 h-5 text-amber-500" />
             <span>Downtown District, 42nd & Madison</span>

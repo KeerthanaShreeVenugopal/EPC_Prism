@@ -48,12 +48,15 @@ export default function Timeline() {
   ];
 
   return (
-    <Card className="p-6 border-slate-200 rounded-2xl">
+    <Card className="p-6 bg-slate-900 border-slate-800 rounded-2xl">
       <div className="mb-6">
-        <h2 className="text-xl mb-1 text-slate-900">Construction Timeline</h2>
-        <p className="text-sm text-slate-500">Major phases and milestones</p>
+        <h2 className="text-xl mb-1 text-white">Construction Timeline</h2>
+        <p className="text-sm text-slate-400">
+          Major phases and milestones
+        </p>
       </div>
-      <div className="space-y-4">
+
+      <div className="space-y-6">
         {phases.map((phase, index) => {
           const isCompleted = phase.status === "completed";
           const isActive = phase.status === "active";
@@ -61,46 +64,64 @@ export default function Timeline() {
 
           return (
             <div key={index} className="flex gap-4">
+              
+              {/* Timeline Icons */}
               <div className="flex flex-col items-center">
-                <div className="relative">
+                <div>
                   {isCompleted && (
-                    <CheckCircle2 className="w-6 h-6 text-green-500" />
+                    <CheckCircle2 className="w-6 h-6 text-green-400" />
                   )}
                   {isActive && (
-                    <Clock className="w-6 h-6 text-amber-500" />
+                    <Clock className="w-6 h-6 text-amber-400" />
                   )}
                   {isUpcoming && (
-                    <Circle className="w-6 h-6 text-slate-300" />
+                    <Circle className="w-6 h-6 text-slate-600" />
                   )}
                 </div>
+
                 {index < phases.length - 1 && (
-                  <div className={`w-0.5 h-16 mt-2 ${
-                    isCompleted ? "bg-green-500" : "bg-slate-200"
-                  }`} />
+                  <div
+                    className={`w-0.5 h-20 mt-2 ${
+                      isCompleted ? "bg-green-400" : "bg-slate-700"
+                    }`}
+                  />
                 )}
               </div>
+
+              {/* Content */}
               <div className="flex-1 pb-8">
                 <div className="flex items-start justify-between mb-2">
                   <div>
-                    <h3 className="text-slate-900 mb-1">{phase.phase}</h3>
-                    <p className="text-sm text-slate-500">
+                    <h3 className="text-white mb-1">
+                      {phase.phase}
+                    </h3>
+                    <p className="text-sm text-slate-400">
                       {phase.startDate} - {phase.endDate}
                     </p>
                   </div>
-                  <div className={`px-3 py-1 rounded-full text-xs ${
-                    isCompleted
-                      ? "bg-green-100 text-green-700"
-                      : isActive
-                      ? "bg-amber-100 text-amber-700"
-                      : "bg-slate-100 text-slate-500"
-                  }`}>
+
+                  <div
+                    className={`px-3 py-1 rounded-full text-xs ${
+                      isCompleted
+                        ? "bg-green-900/40 text-green-400"
+                        : isActive
+                        ? "bg-amber-900/40 text-amber-400"
+                        : "bg-slate-800 text-slate-400 border border-slate-700"
+                    }`}
+                  >
                     {phase.progress}%
                   </div>
                 </div>
-                <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+
+                {/* Progress Bar */}
+                <div className="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
                   <div
-                    className={`h-full rounded-full transition-all ${
-                      isCompleted || isActive ? "bg-amber-500" : "bg-slate-300"
+                    className={`h-full rounded-full transition-all duration-500 ${
+                      isCompleted
+                        ? "bg-green-400"
+                        : isActive
+                        ? "bg-amber-400"
+                        : "bg-slate-600"
                     }`}
                     style={{ width: `${phase.progress}%` }}
                   />
