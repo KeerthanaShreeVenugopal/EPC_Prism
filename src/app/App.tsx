@@ -10,11 +10,9 @@ import Login from './pages/Login';
 
 import EngineerDashboard from './pages/EngineerDashboard';
 import UnAuthorized from './pages/UnAuthorized';
-// import EngineerDashboard from './pages/Engineerdashboard';
+import ManagerDashboard from "./pages/ManagerDashboard";
 
 
-
-// import ConstructionDashboardPage from './pages/ConstructionDashboardPage';
 import AttendanceDashboardPage from "./pages/AttendanceDashboardPage";
 
 import ProtectedRoute from './components/ProtectedRoute';
@@ -33,9 +31,7 @@ export default function App() {
         <Route path="/knowledge-base" element={<KnowledgeBasePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/unauthorized" element={<UnAuthorized />} />
-        {/* <Route path = "/engineer" element = {<EngineerDashboard/>}/>
-        <Route path="/user" element={<ConstructionDashboardPage />} /> */}
-        {/* <Route path="/dashboard" element={<ConstructionDashboardPage />} /> */}
+        
 
         {/* PROTECTED ROLE-BASED ROUTES */}
 
@@ -64,10 +60,16 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        {/* <Route path = "/engineer" element = {<EngineerDashboard/>}/> */}
-        {/* <Route path="/construction-dashboard" element={<ConstructionDashboardPage />} /> */}
-        {/* <Route path="/dashboard" element={<ConstructionDashboardPage />} /> */}
-        {/* <Route path="/attendance-dashboard" element={<AttendanceDashboardPage />} /> */}
+
+<Route
+          path="/manager"
+          element={
+            <ProtectedRoute role="manager">
+              <ManagerDashboard />
+            </ProtectedRoute>
+          }
+        />
+        
 
       </Routes>
     </Router>
