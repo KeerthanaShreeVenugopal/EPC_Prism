@@ -1,5 +1,14 @@
 import { Card } from "../ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
 
 export default function ProgressChart() {
   const data = [
@@ -16,28 +25,49 @@ export default function ProgressChart() {
   ];
 
   return (
-    <Card className="p-6 border-slate-200 rounded-2xl">
+    <Card className="p-6 bg-slate-900 border-slate-800 rounded-2xl">
       <div className="mb-6">
-        <h2 className="text-xl mb-1 text-slate-900">Construction Progress Timeline</h2>
-        <p className="text-sm text-slate-500">Monthly completion percentage - Planned vs Actual</p>
+        <h2 className="text-xl mb-1 text-white">
+          Construction Progress Timeline
+        </h2>
+        <p className="text-sm text-slate-400">
+          Monthly completion percentage - Planned vs Actual
+        </p>
       </div>
+
       <div className="h-80">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-            <XAxis dataKey="month" stroke="#64748b" />
-            <YAxis stroke="#64748b" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+            
+            <XAxis dataKey="month" stroke="#cbd5e1" />
+            <YAxis stroke="#cbd5e1" />
+
             <Tooltip
               contentStyle={{
-                backgroundColor: "#fff",
-                border: "1px solid #e2e8f0",
+                backgroundColor: "#1e293b",
+                border: "1px solid #334155",
                 borderRadius: "12px",
                 padding: "12px",
+                color: "#fff",
               }}
+              labelStyle={{ color: "#fff" }}
             />
-            <Legend />
-            <Bar dataKey="planned" fill="#94a3b8" name="Planned %" radius={[8, 8, 0, 0]} />
-            <Bar dataKey="actual" fill="#f59e0b" name="Actual %" radius={[8, 8, 0, 0]} />
+
+            <Legend wrapperStyle={{ color: "#cbd5e1" }} />
+
+            <Bar
+              dataKey="planned"
+              fill="#475569"
+              name="Planned %"
+              radius={[8, 8, 0, 0]}
+            />
+            <Bar
+              dataKey="actual"
+              fill="#f59e0b"
+              name="Actual %"
+              radius={[8, 8, 0, 0]}
+            />
           </BarChart>
         </ResponsiveContainer>
       </div>
