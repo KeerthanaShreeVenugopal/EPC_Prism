@@ -10,6 +10,12 @@ import Login from './pages/Login';
 
 import EngineerDashboard from './pages/EngineerDashboard';
 import UnAuthorized from './pages/UnAuthorized';
+// import EngineerDashboard from './pages/Engineerdashboard';
+
+
+
+// import ConstructionDashboardPage from './pages/ConstructionDashboardPage';
+import AttendanceDashboardPage from "./pages/AttendanceDashboardPage";
 
 import ProtectedRoute from './components/ProtectedRoute';
 import UserDashboard from './pages/UserDashboard';
@@ -50,6 +56,18 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute role="admin">
+              <AttendanceDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        {/* <Route path = "/engineer" element = {<EngineerDashboard/>}/> */}
+        {/* <Route path="/construction-dashboard" element={<ConstructionDashboardPage />} /> */}
+        {/* <Route path="/dashboard" element={<ConstructionDashboardPage />} /> */}
+        {/* <Route path="/attendance-dashboard" element={<AttendanceDashboardPage />} /> */}
 
       </Routes>
     </Router>
