@@ -2,9 +2,22 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react'
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
-import { Brain, Mail, Lock, User, Shield } from "lucide-react";
+// import { Brain, Mail, Lock, User, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+// import Features3D from "../components/Features3D";
+import Features3D from "../components/Features3D.jsx";
+import {
+  Brain,
+  Mail,
+  Lock,
+  User,
+  Shield,
+  FileText,
+  BarChart3,
+  Network,
+  BookOpen
+} from "lucide-react";
 
 // import figmaImage from 'figma:asset/a13a4be893e2b6f4ab2d31bd04f1b58330796913.png';
 
@@ -14,7 +27,62 @@ const carouselImages = [
   'https://images.unsplash.com/photo-1769721209842-e46c60e7fbf9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBidWlsZGluZyUyMGFyY2hpdGVjdHVyZSUyMGNvbnN0cnVjdGlvbnxlbnwxfHx8fDE3NzE5MTAyNjZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
   'https://images.unsplash.com/photo-1769147339214-076740872485?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbmdpbmVlcmluZyUyMGJsdWVwcmludCUyMHRlY2hub2xvZ3l8ZW58MXx8fHwxNzcyMDA1MjM5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
 ];
-
+const features = [
+  {
+    icon: Brain,
+    title: "EPC Query Engine",
+    description:
+      "Ask complex domain questions and get structured, explainable answers powered by fine-tuned LLM reasoning.",
+    color: "from-blue-300 to-blue-400",
+    bgColor: "bg-blue-50",
+    link: "/query-engine",
+  },
+  {
+    icon: FileText,
+    title: "Document Analysis",
+    description:
+      "Upload and analyze engineering specs and project plans with AI-powered summarization.",
+    color: "from-pink-300 to-pink-400",
+    bgColor: "bg-pink-50",
+    link: "/document-analysis",
+  },
+  {
+    icon: Shield,
+    title: "Risk Assessment",
+    description:
+      "Identify procurement delays and supply chain vulnerabilities with predictive scoring.",
+    color: "from-green-300 to-green-400",
+    bgColor: "bg-green-50",
+    link: "/risk-assessment",
+  },
+  {
+    icon: BarChart3,
+    title: "Analytics Dashboard",
+    description:
+      "Visualize project metrics and performance indicators across your EPC portfolio.",
+    color: "from-orange-300 to-orange-400",
+    bgColor: "bg-orange-50",
+    link: "/analytics-dashboard",
+  },
+  {
+    icon: Network,
+    title: "Supply Chain Intelligence",
+    description:
+      "Optimize procurement networks with AI-driven supplier evaluation.",
+    color: "from-purple-300 to-purple-400",
+    bgColor: "bg-purple-50",
+    link: "/supply-chain",
+  },
+  {
+    icon: BookOpen,
+    title: "Knowledge Base",
+    description:
+      "Access curated EPC domain knowledge with contextual search.",
+    color: "from-teal-300 to-teal-400",
+    bgColor: "bg-teal-50",
+    link: "/knowledge-base",
+  },
+];
 
 
 function CarouselBackground() {
@@ -40,38 +108,39 @@ function CarouselBackground() {
 
 export default function Login() {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [showFeatures, setShowFeatures] = useState(false);
   const navigate = useNavigate();
   const toggleMode = () => {
     setIsSignUp(!isSignUp);
   };
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     const email = (e.target as any)[0].value;
     const password = (e.target as any)[1].value;
-  
+
     // Basic empty field check
     if (!email || !password) {
       alert("Please enter both email and password!");
       return;
     }
-  
+
     try {
       const res = await fetch("http://localhost:8000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-  
+
       const data = await res.json();
-  
+
       if (res.ok) {
         alert("Login Successful!");
-  
+
         localStorage.setItem("token", data.access_token);
         // localStorage.setItem("role", data.role);
         localStorage.setItem("role", data.role.toLowerCase().trim());
-  
+
         // window.location.href = `/${data.role}`;
         navigate(`/${data.role}`, { replace: true });
       }
@@ -89,7 +158,7 @@ export default function Login() {
       alert("Server not reachable");
     }
   };
-  
+
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     const fullname = (e.target as any)[0].value;
@@ -97,28 +166,28 @@ export default function Login() {
     const password = (e.target as any)[2].value;
     const confirmPassword = (e.target as any)[3].value;
     const role = (e.target as any)[4].value;
-  
+
     // 1. Check empty fields
     if (!fullname || !email || !password || !confirmPassword || !role) {
       alert("Please fill all fields!");
       return;
     }
-  
+
     // 2. Check confirm password
     if (password !== confirmPassword) {
       alert("Passwords do NOT match!");
       return;
     }
-  
+
     // 3. Register API call
     const res = await fetch("http://localhost:8000/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ fullname, email, password, role }),
     });
-  
+
     const data = await res.json();
-  
+
     if (res.ok) {
       alert("User Registered Successfully! Please Sign In.");
       setIsSignUp(false); // go to login mode
@@ -151,9 +220,12 @@ export default function Login() {
             <Link to="/" className="text-gray-700 hover:text-purple-600 transition-colors">
               Home
             </Link>
-            <a href="#features" className="text-gray-700 hover:text-purple-600 transition-colors">
+            <button
+              onClick={() => setShowFeatures(true)}
+              className="text-gray-700 hover:text-purple-600 transition-colors"
+            >
               Features
-            </a>
+            </button>
             <Link
               to="/login"
               className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:shadow-lg transition-all"
@@ -409,6 +481,7 @@ export default function Login() {
           )}
         </AnimatePresence>
       </div>
+
       {/* Footer
         <footer className="bg-gray-900 text-white py-12 px-6">
           <div className="max-w-7xl mx-auto">
@@ -461,6 +534,13 @@ export default function Login() {
             </div>
           </div>
         </footer> */}
+      {showFeatures && (
+        <Features3D
+          features={features}
+          onBack={() => setShowFeatures(false)}
+        />
+      )}
     </div>
+
   );
 }
