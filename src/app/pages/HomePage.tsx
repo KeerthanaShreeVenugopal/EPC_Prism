@@ -147,13 +147,25 @@ export default function HomePage() {
               >
                 Features
               </button>
-
               <Link
-                to="/query-engine"
+                to="/engineer"
+                className=  "text-white text-lg font-semibold hover:text-pink-300 transition"
+              >
+                engineer
+              </Link>
+              <Link
+                to="/construction-dashboard"
+                className=  "text-white text-lg font-semibold hover:text-pink-300 transition"
+              >
+                construction-dashboard
+              </Link>
+              <Link
+                to="/login"
                 className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-semibold hover:shadow-xl transition"
               >
                 Login
               </Link>
+
             </div>
           </nav>
         </motion.header>
