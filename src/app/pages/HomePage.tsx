@@ -88,7 +88,29 @@ const features = [
 export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showFeatures, setShowFeatures] = useState(false);
+const [theme, setTheme] = useState("light");
 
+useEffect(() => {
+  const savedTheme = localStorage.getItem("theme");
+
+  if (savedTheme) {
+    setTheme(savedTheme);
+    document.documentElement.classList.toggle("dark", savedTheme === "dark");
+  } else {
+    const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (systemDark) {
+      setTheme("dark");
+      document.documentElement.classList.add("dark");
+    }
+  }
+}, []);
+
+const toggleTheme = () => {
+  const newTheme = theme === "dark" ? "light" : "dark";
+  setTheme(newTheme);
+  localStorage.setItem("theme", newTheme);
+  document.documentElement.classList.toggle("dark", newTheme === "dark");
+};
 
   useEffect(() => {
     const slideInterval = setInterval(() => {
@@ -159,6 +181,11 @@ export default function HomePage() {
               >
                 construction-dashboard
               </Link>
+              <button onClick={toggleTheme}
+  className="px-4 py-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition backdrop-blur-md"
+>
+  {theme === "dark" ?"🌙 Dark" : "☀ Light" }
+</button>
               <Link
                 to="/login"
                 className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-semibold hover:shadow-xl transition"
