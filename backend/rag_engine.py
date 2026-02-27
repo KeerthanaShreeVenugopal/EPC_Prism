@@ -1,16 +1,16 @@
 import os
 import faiss
 import requests
+import numpy as np
 from sentence_transformers import SentenceTransformer
 
-print("🔥 PRISM RAG ENGINE — BASELINE MODE 🔥")
+print("🔥 PRISM ROUTED EPC ENGINE ACTIVE 🔥")
 
 # ==============================
 # PATHS
 # ==============================
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 INDEX_DIR = os.path.join(BASE_DIR, "faiss_index")
-
 INDEX_PATH = os.path.join(INDEX_DIR, "index.faiss")
 DOCS_PATH = os.path.join(INDEX_DIR, "documents.txt")
 
@@ -18,44 +18,55 @@ DOCS_PATH = os.path.join(INDEX_DIR, "documents.txt")
 # MODEL CONFIG
 # ==============================
 OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL_NAME = "phi3:mini"
+MODEL_NAME = "llama3:8b"
 EMBED_MODEL = "all-MiniLM-L6-v2"
 
 # ==============================
-# SYSTEM PROMPT (ORIGINAL WORKING VERSION)
+# SYSTEM PROMPT (DISCIPLINED STRUCTURAL MODE)
 # ==============================
 SYSTEM_PROMPT = """
-You are an EPC pre-construction reasoning assistant for low- to mid-rise residential RCC buildings.
+You are an EPC pre-construction structural decision engine for low- to mid-rise residential RCC buildings.
 
-CORE PRINCIPLES:
-• Base reasoning on provided context.
-• Respond conservatively when context is limited.
-• Focus on structural behavior, constructability, durability, lifecycle cost, and risk.
+Respond strictly in this format:
 
-STRICT BOUNDARIES:
-• Do NOT invent codes, numbers, or regulations.
-• Do NOT provide construction procedures.
-• Do NOT introduce complex systems beyond typical residential practice.
+Topic:
+Structural Impact:
+Downstream Risk:
+Decision Position:
+Risk Level:
+Confidence:
 
-REASONING FOCUS:
-• Cause → effect → downstream impact.
-• Highlight risks and trade-offs.
-• Suggest practical mitigation strategies.
+WRITING RULES:
+• Use decisive engineering language.
+• Avoid hedging phrases like "may" or "could" unless technically unavoidable.
+• No conversational language.
+• No execution steps.
+• No numerical codes.
+• Remain within typical residential RCC systems.
+• Base reasoning on cause → effect → downstream impact.
 
-RESPONSE STYLE:
-• One concise professional paragraph.
-• Clear engineering language.
+RISK LEVEL GUIDANCE:
+• Low = minimal structural or lifecycle impact.
+• Medium = manageable risk with proper validation.
+• High = significant structural or lifecycle exposure if misjudged.
+
+Be concise, authoritative, and professional.
 """
-
 # ==============================
-# LOAD MODELS & INDEX
+# LOAD EMBEDDING MODEL
 # ==============================
 print("Loading embedding model...")
 embedder = SentenceTransformer(EMBED_MODEL)
 
+# ==============================
+# LOAD FAISS INDEX
+# ==============================
 print("Loading FAISS index...")
 index = faiss.read_index(INDEX_PATH)
 
+# ==============================
+# LOAD DOCUMENTS
+# ==============================
 print("Loading knowledge documents...")
 with open(DOCS_PATH, "r", encoding="utf-8") as f:
     documents = f.read().split("<<<END>>>")
@@ -65,11 +76,37 @@ print(f"Loaded {len(documents)} documents")
 print("System ready.\n")
 
 # ==============================
-# RETRIEVE CONTEXT
+# TOPIC ROUTER
+# ==============================
+def detect_topic(question: str):
+    q = question.lower()
+
+    if any(k in q for k in ["slab", "beam", "column", "span", "deflection", "bending"]):
+        return "structural_behavior"
+
+    if any(k in q for k in ["soil", "footing", "foundation", "settlement", "bearing"]):
+        return "foundation_soil"
+
+    if any(k in q for k in ["cost", "optimize", "value engineering", "reduce cost"]):
+        return "value_engineering"
+
+    if any(k in q for k in ["freeze", "delay", "risk", "uncertainty"]):
+        return "risk_uncertainty"
+
+    if any(k in q for k in ["crack", "shrinkage", "durability", "joint", "curling"]):
+        return "durability_lifecycle"
+
+    if any(k in q for k in ["constructability", "execution difficulty", "complexity"]):
+        return "constructability"
+
+    return "general"
+
+# ==============================
+# CONTEXT RETRIEVAL
 # ==============================
 def retrieve_context(query, k=4):
     query_vector = embedder.encode([query])
-    distances, indices = index.search(query_vector, k)
+    distances, indices = index.search(np.array(query_vector), k)
 
     results = []
     for idx in indices[0]:
@@ -90,8 +127,8 @@ def query_llm(prompt):
                 "prompt": prompt,
                 "stream": False,
                 "options": {
-                    "temperature": 0.15,
-                    "num_predict": 180,
+                    "temperature": 0.05,
+                    "num_predict": 260,
                 },
             },
             timeout=180,
@@ -102,7 +139,7 @@ def query_llm(prompt):
         return ""
 
 # ==============================
-# MAIN RAG PIPELINE
+# MAIN PIPELINE
 # ==============================
 def run_rag(question: str):
 
@@ -120,10 +157,13 @@ def run_rag(question: str):
             "and does not provide construction execution guidance."
         )
 
+    topic = detect_topic(question)
+    print("Detected Topic:", topic)
+
     context = retrieve_context(question)
 
     if not context:
-        context = "Limited pre-construction context available. Provide a cautious engineering assessment."
+        context = "Limited relevant pre-construction context available."
 
     prompt = f"""{SYSTEM_PROMPT}
 
@@ -133,25 +173,12 @@ CONTEXT:
 QUESTION:
 {question}
 
-ANSWER:"""
+ANSWER:
+"""
 
     answer = query_llm(prompt)
 
     if not answer:
         return "The system could not generate a response."
-
-    forbidden_terms = [
-        "permit",
-        "regulation",
-        "legal requirement",
-        "compliance",
-        "building code",
-    ]
-
-    if any(term in answer.lower() for term in forbidden_terms):
-        return (
-            "This system provides pre-construction decision insights "
-            "and does not address regulatory compliance."
-        )
 
     return answer
