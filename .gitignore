@@ -206,3 +206,125 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 node_modules
+
+
+#backend
+.venv
+
+# SQLite database files (VERY IMPORTANT)
+*.db
+*.sqlite
+*.sqlite3
+
+
+# -----------------------------------------
+# PYTHON / FASTAPI
+# -----------------------------------------
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[codz]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+.env
+.envrc
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# SQLite database files (VERY IMPORTANT - DO NOT TRACK)
+*.db
+*.sqlite
+*.sqlite3
+
+# Python cache + tooling
+.pybuilder/
+target/
+.cache
+.mypy_cache/
+.pyre/
+.pytype/
+.ruff_cache/
+hypothesis/
+.pytest_cache/
+
+
+# -----------------------------------------
+# FRONTEND / REACT
+# -----------------------------------------
+
+# Node modules
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Environment files (secrets)
+*.env
+*.env.local
+.env.production
+.env.development
+
+
+# -----------------------------------------
+# IDE / SYSTEM FILES
+# -----------------------------------------
+
+# VS Code
+.vscode/
+
+# JetBrains IDEs
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+
+# -----------------------------------------
+# OTHERS
+# -----------------------------------------
+
+# Logs
+*.log
+
+# Marimo / tools
+marimo/_static/
+marimo/_lsp/
+__marimo__/
+
+# Cursor editor
+.cursorignore
+.cursorindexingignore
