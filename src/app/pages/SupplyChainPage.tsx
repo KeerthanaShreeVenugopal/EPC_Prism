@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { useState, useEffect } from "react";
 import { dashboardData } from "../data/mockDashboardData";
 import KPISection from "../components/dashboard/KPISection";
 import NeonLineChart from "../components/dashboard/NeonLineChart";
@@ -11,6 +12,19 @@ import { useNavigate } from "react-router-dom";
 export default function SupplyChainPage() {
   const { financial, productivity, safety, changeOrders } = dashboardData;
   const navigate = useNavigate();
+
+  const [theme, setTheme] = useState(
+    localStorage.getItem("theme") || "light"
+  );
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   const CPI = (financial.earnedValue / financial.actualBudget).toFixed(2);
   const SPI = (financial.earnedValue / financial.plannedBudget).toFixed(2);
@@ -28,43 +42,75 @@ export default function SupplyChainPage() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-[#0f0f1a] text-white p-10"
+      className="
+        min-h-screen
+        bg-white text-gray-900
+        dark:bg-[#0f0f1a] dark:text-gray-100
+        transition-all duration-300
+        p-10
+      "
     >
+      {/* Back Button */}
       <button
         onClick={() => navigate(-1)}
-        className="absolute top-12 left-400 z-50 px-4 py-2 bg-purple-600/80 hover:bg-purple-600 transition rounded-xl text-sm shadow-lg"
+        className="
+  absolute top-1 left-3 z-50
+  px-4 py-2 rounded-xl text-sm shadow-md
+  bg-purple-600 text-white hover:bg-purple-700
+  dark:bg-purple-500 dark:hover:bg-purple-600
+  transition
+"
       >
         ← Back
       </button>
-      <h1 className="text-5xl font-bold mb-10">
-        Intelligent <span className="text-purple-500">Supply Chain</span>
+
+      {/* Theme Toggle */}
+      <button
+        onClick={toggleTheme}
+        className="
+          absolute top-10 right-10
+          px-4 py-2 rounded-xl text-sm
+          bg-gray-200 text-gray-900
+          dark:bg-gray-800 dark:text-white
+          shadow-md transition
+        "
+      >
+        {theme === "dark" ? "☀ Light" : "🌙 Dark"}
+      </button>
+
+      <h1 className="text-5xl font-bold mb-10 tracking-tight">
+        Intelligent{" "}
+        <span className="text-purple-600 dark:text-purple-400">
+          Supply Chain
+        </span>
       </h1>
 
       <KPISection kpis={kpis} />
 
       <div className="grid grid-cols-4 gap-6 mt-10">
-
-        {/* BIG MULTI-LINE CHART */}
-        <div className="col-span-3">
+        <div className="col-span-3 bg-gray-100 dark:bg-[#1a1a2e] rounded-2xl p-6">
           <NeonLineChart trend={financial.monthlyTrend} />
         </div>
 
-        {/* SIDE PANEL */}
         <div className="space-y-6">
-          <FinancePanel data={financial} />
-          <SafetyPanel safety={safety} />
+          <div className="bg-gray-100 dark:bg-[#1a1a2e] rounded-2xl p-6">
+            <FinancePanel data={financial} />
+          </div>
+
+          <div className="bg-gray-100 dark:bg-[#1a1a2e] rounded-2xl p-6">
+            <SafetyPanel safety={safety} />
+          </div>
         </div>
 
-        {/* LOWER ROW */}
-        <div className="col-span-2">
+        <div className="col-span-2 bg-gray-100 dark:bg-[#1a1a2e] rounded-2xl p-6">
           <ProductivityChart dataPoints={productivity.labor} />
         </div>
 
-        <div className="col-span-2">
+        <div className="col-span-2 bg-gray-100 dark:bg-[#1a1a2e] rounded-2xl p-6">
           <ChangeOrderTable orders={changeOrders} />
         </div>
-
       </div>
     </motion.div>
   );
 }
+//heloo

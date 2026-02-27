@@ -8,11 +8,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default defineConfig({
+  base: "./",   // 👈 ADD THIS LINE
+
   plugins: [react(), tailwindcss()],
+  
   resolve: {
     alias: {
       "@": resolve(__dirname, "./src"),
     },
   },
+
   assetsInclude: ["**/*.svg", "**/*.csv"],
 });
