@@ -8,6 +8,7 @@ import SupplyChainPage from './pages/SupplyChainPage';
 import KnowledgeBasePage from './pages/KnowledgeBasePage';
 import Login from './pages/Login';
 
+
 import EngineerDashboard from './pages/EngineerDashboard';
 import UnAuthorized from './pages/UnAuthorized';
 import ManagerDashboard from "./pages/ManagerDashboard";
@@ -19,10 +20,29 @@ import ProtectedRoute from './components/ProtectedRoute';
 import UserDashboard from './pages/UserDashboard';
 
 export default function App() {
+  // Load saved theme
+  const [theme, setTheme] = useState("light");
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme) {
+      setTheme(savedTheme);
+      document.documentElement.classList.toggle("dark", savedTheme === "dark");
+    }
+  }, []);
+
+  // Toggle function
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    document.documentElement.classList.toggle("dark", newTheme === "dark");
+  };
+
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<HomePage toggleTheme={toggleTheme} theme={theme} />} />
         <Route path="/query-engine" element={<QueryEnginePage />} />
         <Route path="/document-analysis" element={<DocumentAnalysisPage />} />
         <Route path="/risk-assessment" element={<RiskAssessmentPage />} />
