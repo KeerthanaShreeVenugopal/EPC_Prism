@@ -165,7 +165,7 @@ export default function HomePage() {
               >
                 Login
               </Link>
-              
+
             </div>
           </nav>
         </motion.header>
