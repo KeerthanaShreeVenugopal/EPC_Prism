@@ -15,7 +15,7 @@ interface EntryExitLogsPanelProps {
   logs: EntryExitLog[];
 }
 
-export default function EntryExitLogsPanel({ logs }: EntryExitLogsPanelProps) {
+export function EntryExitLogsPanel({ logs }: EntryExitLogsPanelProps) {
   return (
     <Card>
       <CardHeader>

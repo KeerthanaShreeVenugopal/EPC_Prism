@@ -17,7 +17,7 @@ interface WorkerListProps {
   workers: Worker[];
 }
 
-export default function WorkerList({ workers }: WorkerListProps) {
+export function WorkerList({ workers }: WorkerListProps) {
   const getStatusColor = (status: Worker['status']) => {
     switch (status) {
       case 'present':

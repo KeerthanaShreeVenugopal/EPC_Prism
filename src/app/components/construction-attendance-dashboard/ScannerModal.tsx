@@ -1,101 +1,89 @@
-import { Badge } from '../ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Avatar, AvatarFallback } from '../ui/avatar';
-import { Clock, MapPin } from 'lucide-react';
+import { useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";;
+import { ScanLine, UserCheck, UserX } from 'lucide-react';
 
-export interface Worker {
-  id: string;
-  name: string;
-  role: string;
-  status: 'present' | 'absent' | 'on-site';
-  entryTime?: string;
-  exitTime?: string;
-  location?: string;
+interface ScannerModalProps {
+  open: boolean;
+  onClose: () => void;
+  onScan: (workerId: string, type: 'entry' | 'exit') => void;
 }
 
-interface WorkerListProps {
-  workers: Worker[];
-}
+export function ScannerModal({ open, onClose, onScan }: ScannerModalProps) {
+  const [workerId, setWorkerId] = useState('');
+  const [scanType, setScanType] = useState<'entry' | 'exit'>('entry');
+  const [scanning, setScanning] = useState(false);
 
-export function WorkerList({ workers }: WorkerListProps) {
-  const getStatusColor = (status: Worker['status']) => {
-    switch (status) {
-      case 'present':
-        return 'bg-green-500';
-      case 'on-site':
-        return 'bg-blue-500';
-      case 'absent':
-        return 'bg-gray-400';
-      default:
-        return 'bg-gray-400';
-    }
-  };
-
-  const getStatusText = (status: Worker['status']) => {
-    switch (status) {
-      case 'present':
-        return 'Present';
-      case 'on-site':
-        return 'On Site';
-      case 'absent':
-        return 'Absent';
-      default:
-        return 'Unknown';
-    }
+  const handleScan = () => {
+    if (!workerId.trim()) return;
+    
+    setScanning(true);
+    // Simulate scanning delay
+    setTimeout(() => {
+      onScan(workerId, scanType);
+      setScanning(false);
+      setWorkerId('');
+    }, 800);
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Worker List</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
-          {workers.map((worker) => (
-            <div
-              key={worker.id}
-              className="flex items-center justify-between p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors"
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <ScanLine className="w-5 h-5 text-orange-500" />
+            Worker ID Scanner
+          </DialogTitle>
+        </DialogHeader>
+        <div className="space-y-6 py-4">
+          <div className="flex gap-2">
+            <Button
+              variant={scanType === 'entry' ? 'default' : 'outline'}
+              className={`flex-1 ${scanType === 'entry' ? 'bg-green-500 hover:bg-green-600' : ''}`}
+              onClick={() => setScanType('entry')}
             >
-              <div className="flex items-center gap-3">
-                <Avatar className="w-12 h-12">
-                  <AvatarFallback className="bg-orange-100 text-orange-700 font-semibold">
-                    {worker.name.split(' ').map(n => n[0]).join('')}
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="font-semibold text-gray-900">{worker.name}</p>
-                  <p className="text-sm text-gray-600">{worker.role}</p>
-                  <div className="flex items-center gap-3 mt-1">
-                    {worker.entryTime && (
-                      <span className="text-xs text-gray-500 flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        In: {worker.entryTime}
-                      </span>
-                    )}
-                    {worker.exitTime && (
-                      <span className="text-xs text-gray-500 flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        Out: {worker.exitTime}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="text-right">
-                <Badge className={`${getStatusColor(worker.status)} text-white border-0`}>
-                  {getStatusText(worker.status)}
-                </Badge>
-                {worker.location && (
-                  <p className="text-xs text-gray-500 mt-2 flex items-center justify-end gap-1">
-                    <MapPin className="w-3 h-3" />
-                    {worker.location}
-                  </p>
-                )}
-              </div>
-            </div>
-          ))}
+              <UserCheck className="w-4 h-4 mr-2" />
+              Entry
+            </Button>
+            <Button
+              variant={scanType === 'exit' ? 'default' : 'outline'}
+              className={`flex-1 ${scanType === 'exit' ? 'bg-red-500 hover:bg-red-600' : ''}`}
+              onClick={() => setScanType('exit')}
+            >
+              <UserX className="w-4 h-4 mr-2" />
+              Exit
+            </Button>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Worker ID</label>
+            <Input
+              placeholder="Scan or enter worker ID..."
+              value={workerId}
+              onChange={(e) => setWorkerId(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleScan()}
+              className="text-center text-lg font-mono"
+              autoFocus
+            />
+          </div>
+
+          <div className="bg-slate-50 p-4 rounded-lg text-center">
+            <ScanLine className={`w-16 h-16 mx-auto mb-2 text-slate-400 ${scanning ? 'animate-pulse' : ''}`} />
+            <p className="text-sm text-slate-600">
+              {scanning ? 'Scanning...' : 'Enter worker ID or scan card'}
+            </p>
+          </div>
+
+          <Button 
+            onClick={handleScan} 
+            disabled={!workerId.trim() || scanning}
+            className="w-full bg-orange-500 hover:bg-orange-600"
+          >
+            {scanning ? 'Processing...' : `Record ${scanType === 'entry' ? 'Entry' : 'Exit'}`}
+          </Button>
         </div>
-      </CardContent>
-    </Card>
+      </DialogContent>
+    </Dialog>
   );
 }
