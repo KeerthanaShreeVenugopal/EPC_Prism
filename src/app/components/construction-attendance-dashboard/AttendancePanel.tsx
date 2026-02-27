@@ -17,7 +17,7 @@ interface AttendancePanelProps {
   records: AttendanceRecord[];
 }
 
-export default function AttendancePanel({ records }: AttendancePanelProps) {
+export function AttendancePanel({ records }: AttendancePanelProps) {
   const getStatusIcon = (status: AttendanceRecord['status']) => {
     switch (status) {
       case 'present':
