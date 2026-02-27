@@ -81,6 +81,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "4.7.0",
     "electron": "^40.6.1",
+    "electron-builder": "^26.8.1",
     "tailwindcss": "4.1.12",
     "vite": "6.4.1"
   }

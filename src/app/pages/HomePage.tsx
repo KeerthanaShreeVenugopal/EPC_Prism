@@ -87,6 +87,12 @@ export default function HomePage() {
                 >
                   Get Started
                 </Link>
+                <Link
+                  to="/login"
+                  className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:shadow-lg transition-all"
+                >
+                  login
+                </Link>
 
                 <button
                   onClick={toggleTheme}
